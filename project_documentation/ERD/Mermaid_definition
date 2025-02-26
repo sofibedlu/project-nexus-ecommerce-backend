@@ -1,0 +1,84 @@
+erDiagram
+    %% User Entity
+    USER {
+      int id PK
+      string username
+      string email
+      string password
+      datetime created_at
+      datetime updated_at
+    }
+    
+    %% Category Entity
+    CATEGORY {
+      int id PK
+      string name
+      string description
+      datetime created_at
+      datetime updated_at
+    }
+    
+    %% Product Entity
+    PRODUCT {
+      int id PK
+      string name
+      string description
+      float price
+      int category_id FK
+      datetime created_at
+      datetime updated_at
+    }
+    
+    %% Cart Entity
+    CART {
+      int id PK
+      int user_id FK
+      datetime created_at
+      datetime updated_at
+    }
+    
+    %% Cart Item Entity
+    CART_ITEM {
+      int id PK
+      int cart_id FK
+      int product_id FK
+      int quantity
+    }
+    
+    %% Order Entity
+    ORDER {
+      int id PK
+      int user_id FK
+      datetime order_date
+      string order_status
+      float total_amount
+    }
+    
+    %% Order Item Entity
+    ORDER_ITEM {
+      int id PK
+      int order_id FK
+      int product_id FK
+      int quantity
+      float unit_price
+    }
+    
+    %% Payment Entity
+    PAYMENT {
+      int id PK
+      int order_id FK
+      float amount
+      datetime payment_date
+      string payment_status
+      string payment_method
+    }
+    
+    %% Relationships
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : "is part of"
+    CATEGORY ||--o{ PRODUCT : categorizes
+    USER ||--|| CART : "owns"
+    CART ||--|{ CART_ITEM : contains
+    PRODUCT ||--o{ CART_ITEM : "is added to"
+    ORDER ||--|| PAYMENT : "has"
