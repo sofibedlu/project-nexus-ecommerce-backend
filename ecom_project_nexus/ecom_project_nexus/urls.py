@@ -25,7 +25,23 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Project Nexus API",
         default_version='v1',
-        description="API documentation for the Project Nexus E-Commerce Backend",
+        description="""
+API Usage Instructions:
+
+1. **Authentication**:
+   - **Registration**: Use `POST /api-auth/register/` to create an account.
+   - **Login**: Use `POST /api-auth/token/` to obtain a JWT token.
+   - **Token Refresh**: Use `POST /api-auth/token/refresh/` with a valid refresh token to retrieve a new access token.
+   
+2. **Products & Categories**:
+   - **Products**: Access endpoints at `/api/products/` for listing and CRUD operations.
+   - **Categories**: Access endpoints at `/api/products/categories/` for category management.
+   
+3. **Headers**:
+   - For authenticated endpoints, include the header: `Authorization: Bearer <your_token>`.
+   
+Query parameters enable filtering, sorting, and pagination.
+""",
         license=openapi.License(name="BSD License"),
     ),
     public=True,
