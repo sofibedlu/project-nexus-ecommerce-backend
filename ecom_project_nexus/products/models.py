@@ -22,3 +22,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),
+            models.Index(fields=['category']),
+            models.Index(fields=['created_at']),
+            models.Index(fields=['price']),
+        ]
