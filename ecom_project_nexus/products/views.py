@@ -1,13 +1,14 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Product
+from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
-from .models import Category
+from accounts.permissions import IsAdminOrReadOnly
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
     filterset_fields = ['price', 'category']
@@ -24,3 +25,4 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAdminOrReadOnly]
