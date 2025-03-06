@@ -1,4 +1,6 @@
-from drf_yasg.utils import swagger_auto_schema
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product, Category
@@ -15,12 +17,18 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'created_at']
 
-    @swagger_auto_schema(
-        operation_summary="Retrieve a list of products",
-        responses={200: ProductSerializer(many=True)}
-    )
+    def get_queryset(self):
+        # to avoid N+1 queries.
+        queryset = Product.objects.all().select_related('category')
+        return queryset
+
+    @method_decorator(cache_page(300))  # cache the list response for 5 minutes
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+    
+    @method_decorator(cache_page(300))  # Cache individual product for 5 minutes
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
