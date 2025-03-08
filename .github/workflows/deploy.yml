@@ -46,10 +46,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run Migrations
-        run: |
-          python manage.py makemigrations
-          python manage.py migrate
+      - name: Check for Missing Migrations # ✅ Check for missing migrations before running tests
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Run Migrations  # ✅ Apply all migrations before running tests
+        run: python manage.py migrate
       - name: Run Tests
         run: python manage.py test
 
