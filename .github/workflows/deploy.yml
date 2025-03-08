@@ -92,6 +92,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /opt/ecom-project-nexus
-            docker pull sofib1/ecom-project-nexus:latest
-            docker compose down
+            docker compose pull
             docker compose up -d
