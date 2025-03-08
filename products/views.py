@@ -8,7 +8,7 @@ from .serializers import ProductSerializer, CategorySerializer
 from accounts.permissions import IsAdminOrReadOnly
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('created_at')
     serializer_class = ProductSerializer
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
