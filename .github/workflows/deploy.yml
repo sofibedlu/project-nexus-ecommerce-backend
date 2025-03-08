@@ -27,6 +27,11 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: "False"
@@ -35,6 +40,8 @@ jobs:
       DB_PASSWORD: testpassword
       DB_HOST: localhost
       DB_PORT: 5432
+      REDIS_HOST: localhost  # ✅ Use localhost because it's a GitHub Actions service
+      REDIS_PORT: 6379
 
     steps:
       - uses: actions/checkout@v4
