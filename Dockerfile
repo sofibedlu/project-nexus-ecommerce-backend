@@ -1,5 +1,5 @@
 # Use an ARM-compatible base image
-FROM python:3.8-slim-bullseye
+FROM --platform=linux/arm64 python:3.8-slim
 
 # Set environment variables for Python
 ENV PYTHONUNBUFFERED=1
