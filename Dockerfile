@@ -1,5 +1,5 @@
-# Use an ARM-compatible base image
-FROM --platform=linux/arm64 python:3.8-slim
+# Dockerfile (Python)
+FROM python:3.8-slim
 
 # Set environment variables for Python
 ENV PYTHONUNBUFFERED=1
@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y\
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
