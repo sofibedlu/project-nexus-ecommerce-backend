@@ -6,6 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 from accounts.permissions import IsAdminOrReadOnly
+from .filters import ProductFilter
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by('created_at')
@@ -13,13 +14,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
 
-    filterset_fields = ['price', 'category']
+    filterset_class = ProductFilter
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'created_at']
 
     def get_queryset(self):
         # to avoid N+1 queries.
-        queryset = Product.objects.all().select_related('category')
+        queryset = Product.objects.all().select_related('category').order_by('created_at')
         return queryset
 
     @method_decorator(cache_page(300))  # cache the list response for 5 minutes
